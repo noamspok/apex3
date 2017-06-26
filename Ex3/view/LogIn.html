@@ -5,14 +5,14 @@
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    
+
     <script src="../Scripts/jquery-3.1.1.js"></script>
     <link href="../Content/bootstrap.min.css" rel="stylesheet" />
     <title>
         Login
     </title>
 
-    
+
 </head>
 <body>
 
@@ -38,11 +38,11 @@
                 <div class="form-group">
                     <label for="Username" class="col-md-2 control-label">Username: </label>
                     <div class="col-md-10">
-                        <input type="text" class="form-control" id="Username" />
+                        <input type="text" class="form-control" data-bind="value:UserName" />
                     </div>
                     <label for="Password" class="col-md-2 control-label">Password: </label>
                     <div class="col-md-10">
-                        <input type="text" class="form-control" id="Password" />
+                        <input type="text" class="form-control" data-bind="value:Password" />
                     </div>
                 </div>
             </div>
@@ -50,7 +50,7 @@
     </div>
     <div class="container">
         <div>
-            <button class="btn btn-default">Login</button>
+            <button class="btn btn-default" data-bind="click: LogInClicked">Login</button>
         </div>
         <br />
         <a href="Register.html" class="text-info">
@@ -60,5 +60,8 @@
         </a>
     </div>
 
+
+    <script src="../Scripts/knockout-3.4.2.js"></script>
+    <script src="../Scripts/LogIn.js"></script>
 </body>
 </html>

@@ -27,6 +27,11 @@ namespace Ex3
             );
 
             config.Routes.MapHttpRoute(
+                name: "RegisterApi",
+                routeTemplate: "api/{controller}/{UserName}",
+                defaults: new { controller = "Registery" }
+            );
+            config.Routes.MapHttpRoute(
                 name: "DefaultApi",
                 routeTemplate: "api/{controller}/{id}",
                 defaults: new { id = RouteParameter.Optional }

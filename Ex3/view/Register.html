@@ -5,17 +5,17 @@
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <link rel="stylesheet" href="Ex3\Content\bootstrap.min.css">
-    <script src="../Ex3/Scripts/jquery-3.1.1.js"></script>
-    <script src="https://code.jquery.com/jquery-1.10.2.js"></script>
-    <script src="Ex3\Content\bootstrap.min.css"></script>
-    <script src="Ex3\Scripts\bootstrap.min.js"></script>
+    <script src="../Scripts/jquery-3.1.1.js"></script>
+    <link href="../Content/bootstrap.min.css" rel="stylesheet" />
+
+    <script src="../Scripts/bootstrap.js"></script>
+
 
     <title>
         Register
     </title>
 
-    
+
 </head>
 <body>
 
@@ -40,31 +40,33 @@
                 <div class="form-group">
                     <label for="Username" class="col-md-2 control-label">Username: </label>
                     <div class="col-md-10">
-                        <input type="text" class="form-control" id="Username" />
+                        <input type="text" class="form-control" data-bind="value:UserName" />
                         <br />
                     </div>
                     <br />
                     <label for="Password" class="col-md-2 control-label">Password: </label>
                     <div class="col-md-10">
-                        <input type="text" class="form-control" id="Password" />
+                        <input type="text" class="form-control" data-bind="value:Password" />
                         <br />
                     </div>
                     <label for="Password2" class="col-md-2 control-label">Verify Password: </label>
                     <div class="col-md-10">
-                        <input type="text" class="form-control" id="Password2" />
+                        <input type="text" class="form-control" data-bind="value:Password2" />
                         <br />
                     </div>
                     <label for="E-mail" class="col-md-2 control-label">E-mail: </label>
                     <div class="col-md-10">
-                        <input type="text" class="form-control" id="E-mail" />
+                        <input type="text" class="form-control" data-bind="value:Email" />
                     </div>
                 </div>
             </div>
         </form>
     </div>
     <div class="container">
-        
-            <button class="btn btn-default">Register</button>
-        </div>
+
+        <button class="btn btn-default" data-bind="click: RegBtn">Register</button>
+    </div>
+    <script src="../Scripts/knockout-3.4.2.js"></script>
+    <script src="../Scripts/Register.js"></script>
 </body>
 </html>

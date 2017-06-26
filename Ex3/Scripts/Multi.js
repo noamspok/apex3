@@ -23,9 +23,9 @@
 
         var fromStr = maze.Maze.split("");
 
-        for (var i = 0; i < rows; i++) {
-            for (var j = 0; j < cols; j++) {
-                mazeData[i][j] = fromStr[(i * cols) + j];
+        for (var j = 0; j < rows; j++) {
+            for (var k = 0; k < cols; k++) {
+                mazeData[j][k] = fromStr[(j * cols) + k];
             }
         }
         //need to change to operate only in join button

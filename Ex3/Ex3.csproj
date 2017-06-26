@@ -43,6 +43,12 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="EntityFramework, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
+      <HintPath>..\packages\EntityFramework.6.1.3\lib\net45\EntityFramework.dll</HintPath>
+    </Reference>
+    <Reference Include="EntityFramework.SqlServer, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
+      <HintPath>..\packages\EntityFramework.6.1.3\lib\net45\EntityFramework.SqlServer.dll</HintPath>
+    </Reference>
     <Reference Include="MazeGeneratorLib">
       <HintPath>..\..\ex1-advancedProgramming2\MazeGeneratorLib.dll</HintPath>
     </Reference>
@@ -134,8 +140,11 @@
     <Content Include="Images\maze_logo.png" />
     <Content Include="Images\Maze_Runner.jpg" />
     <Content Include="Images\הורד %281%29.jpg" />
+    <Content Include="Scripts\LogIn.js" />
     <Content Include="Scripts\Multi.js" />
+    <Content Include="Scripts\Register.js" />
     <Content Include="Scripts\Single.js" />
+    <Content Include="Scripts\UserRankings.js" />
     <Content Include="view\LogIn.html" />
     <Content Include="view\Maze.html" />
     <Content Include="view\MultiPlayer.html" />
@@ -170,11 +179,19 @@
     <Compile Include="App_Start\WebApiConfig.cs" />
     <Compile Include="Controllers\MazeInfo.cs" />
     <Compile Include="Controllers\MultiController.cs" />
+    <Compile Include="Controllers\RegistryController.cs" />
     <Compile Include="Controllers\SingleController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201706262350343_initialDb.cs" />
+    <Compile Include="Migrations\201706262350343_initialDb.Designer.cs">
+      <DependentUpon>201706262350343_initialDb.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\Adapter.cs" />
+    <Compile Include="Models\Ex3Context.cs" />
+    <Compile Include="Models\RegistryModel.cs" />
     <Compile Include="Models\SingleModel.cs" />
     <Compile Include="Models\SolveSolution.cs" />
     <Compile Include="MultiplayerHub.cs" />
@@ -193,6 +210,11 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Migrations\201706262350343_initialDb.resx">
+      <DependentUpon>201706262350343_initialDb.cs</DependentUpon>
+    </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
