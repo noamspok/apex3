@@ -8,7 +8,7 @@ $(function () {
     }
 });
 
-
+var vm = new AppViewModel();
 var messagesHub = $.connection.multiplayerHub;
 var self = sessionStorage.getItem("loggedInUser");
 $(function () {
@@ -16,20 +16,15 @@ $(function () {
         messagesHub.server.connect(self);
     });
 });
-$.connection.hub.start().done(function () {
-    messagesHub.server.connect(self);
-});
+
 var rival;
 var start = true;
 var Maze;
-var GamesList;
+
 messagesHub.client.gotMaze = function (text) {
     Maze = text;
 };
-messagesHub.client.gotGames = function (text) {
-    GamesList = text;
-   
-};
+
 
 ko.validation.registerExtenders();
 
@@ -39,13 +34,8 @@ function AppViewModel() {
     this.rows = ko.observable("").extend({ required: { message: "Please enter number of rows" },number: true });
     this.columns = ko.observable("").extend({ required: { message: "Please enter number of columns" }, number: true });
     this.gameOptions = ko.observableArray([]);
-    this.update = ko.observable(true);
-    this.Games = function () {
-        that.update = false;
-        messagesHub.server.getGames(self);
-        that.gameOptions = GamesList;
-        that.update = true;
-    };
+    
+    
     this.selectedGame = ko.observable("");
     this.StartBtn = function () {
         document.onkeydown = function (e) {
@@ -84,25 +74,26 @@ function AppViewModel() {
         return this.columns.isValid() && this.rows.isValid(), this.Name.isValid();
     }, this);
 }
-messagesHub.client.gotMessage = function (senderPhoneNum, text) {
+messagesHub.client.start = function (senderPhoneNum, text) {
     rival = senderPhoneNum;
     
-    if (start) {
-        new PNotify({
-            title: '',
-            text: 'Start Playing!',
-            type: 'success',
-            hide: false
-        });
-        start = false;
-    }
+    alert("start playing!");
+    
     document.onkeydown = function (e) {
         return true;
     };
-    $("#rivalsMazeCanvas").rivalMove(text);
+  
     
 };
+messagesHub.client.move = function (text) {
+    $("#rivalsMazeCanvas").rivalMove(text);
+};
+messagesHub.client.gotGames = function (text) {
+    
+    vm.gameOptions(text["games"]);
+    
 
 
-ko.applyBindings(new AppViewModel());
+};
+ko.applyBindings(vm);
 

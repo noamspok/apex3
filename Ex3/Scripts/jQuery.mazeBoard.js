@@ -72,7 +72,7 @@
                 if (mazeDat[playerRowLoc][playerColLoc - 1] == 0) {
                     movePlayer(playerRowLoc, playerColLoc - 1);
                     if (Multi) {
-                        messagesHub.messagesHub.server.sendMessage(sessionStorage.getItem("loggedInUser"),Rival,"left" );
+                        messagesHub.messagesHub.server.move(sessionStorage.getItem("loggedInUser"),Rival,"left" );
                     }
                 }
 
@@ -81,7 +81,7 @@
                 if (mazeDat[playerRowLoc - 1][playerColLoc] == 0) {
                     movePlayer(playerRowLoc - 1, playerColLoc);
                     if (Multi) {
-                        messagesHub.messagesHub.server.sendMessage(sessionStorage.getItem("loggedInUser"), Rival, "up");
+                        messagesHub.messagesHub.server.move(sessionStorage.getItem("loggedInUser"), Rival, "up");
                     }
                 }
                 break;
@@ -89,7 +89,7 @@
                 if (mazeDat[playerRowLoc][playerColLoc + 1] == 0) {
                     movePlayer(playerRowLoc, playerColLoc + 1);
                     if (Multi) {
-                        messagesHub.messagesHub.server.sendMessage(sessionStorage.getItem("loggedInUser"), Rival, "down");
+                        messagesHub.messagesHub.server.move(sessionStorage.getItem("loggedInUser"), Rival, "down");
                     }
                 }
                 break;
@@ -97,7 +97,7 @@
                 if (mazeDat[playerRowLoc + 1][playerColLoc] == 0) {
                     movePlayer(playerRowLoc + 1, playerColLoc);
                     if (Multi) {
-                        messagesHub.messagesHub.server.sendMessage(sessionStorage.getItem("loggedInUser"), Rival, "right");
+                        messagesHub.messagesHub.server.move(sessionStorage.getItem("loggedInUser"), Rival, "right");
                     }
                 }
                 break;
@@ -105,19 +105,16 @@
         if (playerRowLoc == xitRow && playerColLoc == xitCol) {
             document.removeEventListener('keydown', movePlayer);
             if (Multi) {
-                var apiUrl = "../api//Registry/SetRank/" + sessionStorage.getItem("loggedInUser")+ "/" + "Win";
+                var apiUrl = "../api//Registry/SetRank/" + sessionStorage.getItem("loggedInUser") + "/" + "Win" + "/" + "0";
                 $.ajax({
                     method: "GET",
                     url: apiUrl
                 }).done(function (maze) { });
 
             }
-            new PNotify({
-                title: '',
-                text: 'you won!! =)',
-                type: 'success',
-                hide: false
-            });
+           
+                alert( "you won!! =)")
+                
            
         }
     }
@@ -175,19 +172,14 @@
         }
         if (playerRowLoc == xitRow && playerColLoc == xitCol) {
             
-                var apiUrl = "../api//Registry/SetRank/" + sessionStorage.getItem("loggedInUser") + "/" + "lose";
+                var apiUrl = "../api//Registry/SetRank/" + sessionStorage.getItem("loggedInUser") + "/" + "lose"+"/"+"0";
                 $.ajax({
                     method: "GET",
                     url: apiUrl
                 }).done(function (maze) { });
-
             
-                new PNotify({
-                    title: '',
-                    text: 'you Lost =(',
-                    type: 'success',
-                    hide: false
-                });
+                    alert( "you Lost =(")
+                    
         }
 
     };

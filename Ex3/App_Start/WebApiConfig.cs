@@ -21,7 +21,7 @@ namespace Ex3
 
             config.Routes.MapHttpRoute(
                 name: "RankApi",
-                routeTemplate: "api/{controller}/{action}/{UserName}/{update}",
+                routeTemplate: "api/{controller}/{action}/{UserName}/{update}/0",
                 defaults: new { controller = "Registery" }
             );
             

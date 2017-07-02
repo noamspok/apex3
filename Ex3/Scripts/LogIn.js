@@ -15,28 +15,22 @@ function AppViewModel() {
     this.Password = ko.observable("");
 
     this.LogInClicked = function () {
-        var apiUrl = "../api/Registry/" + this.UserName();
-        $.ajax({
-            method: "GET",
-            url: apiUrl
-        }).done(function (User) {
-            if (typeof User[0] !== 'undefined') {
-                var pass = User[0]["Password"];
-                if (pass == ko.toJS(that.Password)) {
-                    sessionStorage.loggedInUser = User[0]["UserName"];
-                    window.location.href = "Maze.html";
+        var str = this.UserName() + " " + this.Password();
+        var apiUrl = "../api/Registry/" + str;
+        $.getJSON(apiUrl).done(function (User) {
+
+            sessionStorage.loggedInUser = User.UserName;
+            window.location.href = "Maze.html";
+        })
+            .fail(function (jqXHR, status, errorThrown) {
+                // if the page not found
+                if (errorThrown == "Not Found") {
+                    alert('Wrong username or password');
                 }
                 else {
-                    alert("wrong password");
+                    alert('Failed send request to server');
                 }
-
-            }
-            else {
-                alert("wrong UserName");
-            }
-
-
-        });
+            });
     };
     this.isFormValid = ko.computed(function () {
 

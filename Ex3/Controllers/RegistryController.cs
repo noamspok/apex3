@@ -9,6 +9,8 @@ using System.Net.Http;
 using System.Web.Http;
 using System.Web.Http.Description;
 using Ex3.Models;
+using System.Security.Cryptography;
+using System.Text;
 
 namespace Ex3.Controllers
 {
@@ -24,13 +26,25 @@ namespace Ex3.Controllers
 
         // GET: api/Registry/5
         [ActionName("GetUserName")]
-        public IEnumerable<RegistryModel> GetRegistryModel(string UserName)
+        public IHttpActionResult GetRegistryModel(string UserName)
         {
+            string[] arr = UserName.Split(' ');
+            string usern = arr[0];
+            string password = arr[1];
+            RegistryModel player = db.RegistryModels.SingleOrDefault(user => user.UserName == usern);
+            if (player == null)
+            {
+                return NotFound();
+            }
+            if (ComputeHash(password) != player.Password)
+            {
+                return NotFound();
+            }
 
-            return db.RegistryModels.Where(m => m.UserName == UserName);
+            return Ok(player);
         }
 
-        // GET: api/Registry/SetRank/username/update
+        // GET: api/Registry/SetRank/username/update/0
         [ActionName("SetRank")]
         public IEnumerable<RegistryModel> GetRegistrModel(string Username,string update)
         {
@@ -88,13 +102,24 @@ namespace Ex3.Controllers
             {
                 return BadRequest(ModelState);
             }
-            if(db.RegistryModels.Where(m => m.UserName == registryModel.UserName) != null)
+            registryModel.Password = ComputeHash(registryModel.Password);
+            
+            try
             {
+                if (db.RegistryModels.Where(m => m.UserName == registryModel.UserName).Any() )
+                {
 
-                throw new HttpResponseException(Request.CreateErrorResponse(HttpStatusCode.Conflict,new Exception("UserName allready exists!")));
+                    throw new DbUpdateException();
+                }
+                db.RegistryModels.Add(registryModel);
+                db.SaveChanges();
+
             }
-            db.RegistryModels.Add(registryModel);
-            db.SaveChanges();
+            catch (DbUpdateException)
+            {
+                return Conflict();
+            }
+                
 
             return CreatedAtRoute("DefaultApi", new { id = registryModel.Id }, registryModel);
         }
@@ -127,6 +152,15 @@ namespace Ex3.Controllers
         private bool RegistryModelExists(int id)
         {
             return db.RegistryModels.Count(e => e.Id == id) > 0;
+        }
+
+        private string ComputeHash(string input)
+        {
+            SHA1 sha = SHA1.Create();
+            byte[] buffer = Encoding.ASCII.GetBytes(input);
+            byte[] hash = sha.ComputeHash(buffer);
+            string hash64 = Convert.ToBase64String(hash);
+            return hash64;
         }
     }
 }

@@ -38,11 +38,23 @@ function AppViewModel() {
             "Email": JsEmail
         };
         var apiUrl = "../api/Registry";
-        $.post(apiUrl, JsonData, function (result) {
+        $.post(apiUrl, JsonData).done(function (item) {
+            alert("User registered successfully");
             sessionStorage.loggedInUser = ko.toJS(that.UserName);
             window.location.href = "Maze.html";
-        }).fail(function (jqXHR, textStatus, errorThrown) {
-            alert(textStatus + " " + errorThrown);
+        }).fail(function (jqXHR, status, errorThrown) {
+            // if wrong arguments
+            if (errorThrown == "BadRequest") {
+                alert('Wrong details');
+            }
+            // if the user already exist
+            else if (errorThrown == "Conflict") {
+                alert('Username already exist');
+            }
+            else {
+                alert('Failed to send request to server');
+            }
+        
         });
 
     };
