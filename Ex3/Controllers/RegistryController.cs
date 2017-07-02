@@ -30,6 +30,21 @@ namespace Ex3.Controllers
             return db.RegistryModels.Where(m => m.UserName == UserName);
         }
 
+        // GET: api/Registry/SetRank/username/update
+        [ActionName("SetRank")]
+        public IEnumerable<RegistryModel> GetRegistrModel(string Username,string update)
+        {
+
+            RegistryModel player = db.RegistryModels.SingleOrDefault(user => user.UserName == Username);
+            if (update == "Win")
+            {
+                player.Wins += 1;
+            }
+            else { player.Loses+= 1; }
+            db.SaveChanges();
+            return db.RegistryModels.Where(m => m.UserName == Username);
+        }
+
         // PUT: api/Registry/5
         [ResponseType(typeof(void))]
         public IHttpActionResult PutRegistryModel(int id, RegistryModel registryModel)
@@ -73,7 +88,11 @@ namespace Ex3.Controllers
             {
                 return BadRequest(ModelState);
             }
+            if(db.RegistryModels.Where(m => m.UserName == registryModel.UserName) != null)
+            {
 
+                throw new HttpResponseException(Request.CreateErrorResponse(HttpStatusCode.Conflict,new Exception("UserName allready exists!")));
+            }
             db.RegistryModels.Add(registryModel);
             db.SaveChanges();
 

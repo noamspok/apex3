@@ -71,5 +71,6 @@ namespace Ex3.Models
             games.Add(name, maze);
             return maze;
         }
+        public Maze GetGames(string game) { return games[game]; }
     }
 }

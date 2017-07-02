@@ -123,6 +123,8 @@
     <Content Include="Content\bootstrap-theme.min.css" />
     <Content Include="Content\bootstrap.css" />
     <Content Include="Content\bootstrap.min.css" />
+    <Content Include="Content\jquery.pnotify.css" />
+    <Content Include="Content\jquery.pnotify.icons.css" />
     <Content Include="fonts\glyphicons-halflings-regular.svg" />
     <Content Include="Global.asax" />
     <Content Include="fonts\glyphicons-halflings-regular.woff2" />
@@ -140,9 +142,16 @@
     <Content Include="Images\maze_logo.png" />
     <Content Include="Images\Maze_Runner.jpg" />
     <Content Include="Images\הורד %281%29.jpg" />
+    <Content Include="Scripts\jquery.pnotify.js" />
+    <Content Include="Scripts\jquery.pnotify.min.js" />
+    <Content Include="Scripts\knockout.validation.js" />
+    <Content Include="Scripts\knockout.validation.min.js" />
     <Content Include="Scripts\LogIn.js" />
+    <Content Include="Scripts\Maze.js" />
     <Content Include="Scripts\Multi.js" />
+    <Content Include="Scripts\NavBar.js" />
     <Content Include="Scripts\Register.js" />
+    <Content Include="Scripts\Settings.js" />
     <Content Include="Scripts\Single.js" />
     <Content Include="Scripts\UserRankings.js" />
     <Content Include="view\LogIn.html" />
@@ -169,6 +178,7 @@
     <Content Include="Scripts\knockout-3.4.2.js" />
     <Content Include="view\Register.html" />
     <Content Include="view\Settings.html" />
+    <Content Include="view\SignedNavBar.html" />
     <Content Include="view\SinglePlayer.html" />
     <Content Include="view\UserRankings.html" />
     <Content Include="view\winModal.html" />
@@ -194,13 +204,14 @@
     <Compile Include="Models\RegistryModel.cs" />
     <Compile Include="Models\SingleModel.cs" />
     <Compile Include="Models\SolveSolution.cs" />
-    <Compile Include="MultiplayerHub.cs" />
+    <Compile Include="Controllers\MultiplayerHub.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="packages.config" />
     <Content Include="Scripts\jquery-3.1.1.slim.min.map" />
     <Content Include="Scripts\jquery-3.1.1.min.map" />
+    <Content Include="Scripts\knockout.validation.min.js.map" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
@@ -210,6 +221,7 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
+    <Folder Include="db\" />
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="Migrations\201706262350343_initialDb.resx">

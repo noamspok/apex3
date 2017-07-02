@@ -5,7 +5,7 @@
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-
+    
 
 </head>
 <body>
@@ -14,7 +14,7 @@
             <ul class="nav navbar-nav">
                 <li><a href="Maze.html">Maze</a></li>
                 <li><a href="SinglePlayer.html">Single Game</a></li>
-                <li><a href="LogIn.html"> Multiplayer Game</a></li>
+                <li><a href="MultiPlayer.html"> Multiplayer Game</a></li>
 
                 <li><a href="Settings.html">Settings</a></li>
                 <li><a href="UserRankings.html">User Rankings</a></li>
@@ -22,13 +22,13 @@
             </ul>
 
             <ul class="nav navbar-nav navbar-right">
-                <li><a href="Register.html"><span class="glyphicon glyphicon-user"></span> Register</a></li>
-                <li><a href="LogIn.html"><span class="glyphicon glyphicon-log-in"></span> Login</a></li>
+                <li><a href="#"><span class="glyphicon glyphicon-user" data-bind="text: helloUser"></span> </a></li>
+                <li><a href="#"class="btn " data-bind="click:logOut" ><span class="glyphicon glyphicon-log-out" ></span></a></li>
             </ul>
 
         </div>
     </nav>
 
-
+    <script src="../Scripts/NavBar.js"></script>
 </body>
 </html>

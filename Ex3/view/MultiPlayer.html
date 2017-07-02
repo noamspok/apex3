@@ -14,7 +14,7 @@
 
     
 </head>
-<body style="background-color:whitesmoke">
+<body>
     <div id="nav-placeholder">
 
     </div>
@@ -32,42 +32,42 @@
 
             <div class="form-group">
                 <label class="col-sm-3 control-label"><br />Games:</label>
-                <div class="dropdown">
+                <div>
                     <br />
-                    
-                    <button class=" btn btn-default dropdown-toggle up" type="button" id="dropdownMenu1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
-                        games
-                        <span class="caret"></span>
-                    </button>
-                    <ul class="dropdown-menu" aria-labelledby="dropdownMenu1" id="games"></ul>
-
+                    <select class="btn btn-default" data-bind=" options: gameOptions,optionsCaption:'Games',value: selectedGame, click: Games"></select>
                 </div>
                
                 <br />
-                <button class="btn btn-default center-block col-sm-6 " style="margin-left:40px">Join Game</button>
+                <button class="btn btn-default center-block col-sm-6 " style="margin-left:40px" data-bind="enable:selectedGame">Join Game</button>
 
             </div>
                 <div>
                     <br />
                     <label for="mazeName" class="col-sm-3 control-label">Name</label>
                     <div class="col-sm-9">
-                        <input type="text" class="form-control" id="mazeName" />
+                        <input type="text" class="form-control" data-bind="value:Name, valueUpdate: 'keyup' " 
+                               placeholder ="Enter The Game's Name" />
+                        <span data-bind='visible: Name.hasError, text: Name.validationMessage'> </span>
                         <br />
                     </div>
-                    <label for="cols" class="col-sm-3 control-label">columns</label>
+                    <label for="cols" class="col-sm-3 control-label">rows</label>
                     <div class="col-sm-9">
-                        <input type="text" class="form-control" id="cols" />
+                        <input type="text" class="form-control" data-bind="value:rows, valueUpdate: 'keyup' " 
+                               placeholder ="Enter number of rows" />
+                        <span data-bind='visible: rows.hasError, text: rows.validationMessage'> </span>
                         <br />
                     </div>
-                    <label for="rows" class="col-sm-3 control-label">rows</label>
+                    <label for="rows" class="col-sm-3 control-label">columns</label>
                     <div class="col-sm-9">
-                        <input type="text" class="form-control" id="rows" />
+                        <input type="text" class="form-control" data-bind="value:columns, valueUpdate: 'keyup' " 
+                               placeholder ="Enter number of columns" />
+                        <span data-bind='visible: columns.hasError, text: columns.validationMessage'> </span>
                         <br />
                     </div>
                 </div>
                 <div>
                     <br />
-                    <button class="btn btn-default" style="margin-left:40px" id="BtnStrt">Start A New Game</button>
+                    <button class="btn btn-default" style="margin-left:40px" data-bind="click: StartBtn ,enable: isFormValid">Start A New Game</button>
 
 
                     
@@ -92,9 +92,14 @@
         
     </div>
         </div>
+    <script src="../Scripts/knockout-3.4.2.js"></script>
+    <script src="../Scripts/knockout.validation.js"></script>
     <script src="../Scripts/jquery.signalR-2.2.2.js"></script>
-    <script src="../signalr/hubs" type="text/javascript"></script>
+<script src="../signalr/hubs"></script>
+    <script src="../Scripts/jquery.pnotify.js"></script>
+    <link href="../Content/jquery.pnotify.css" rel="stylesheet" />
     <script src="../Scripts/jquery.mazeBoard.js"></script>
     <script src="../Scripts/Multi.js"></script>
+    
 </body>
 </html>

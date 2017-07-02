@@ -5,11 +5,8 @@
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-
-    <script src="../Scripts/jquery-3.1.1.js"></script>
     <link href="../Content/bootstrap.min.css" rel="stylesheet" />
-
-    <script src="../Scripts/bootstrap.js"></script>
+    
     <title>
         SinglePlayer
     </title>
@@ -21,54 +18,49 @@
 
     </div>
 
-    <script>
-        $(function () {
-            $("#nav-placeholder").load("navigationbar.html");
-        });
-    </script>
+    
     <div class="container-fluid">
         <h2>Single Player Game</h2>
         <br />
         <div class="col-sm-4 form-horizontal">
-            <div class="form-group">
-                <label for="mazeName" class="col-sm-2 control-label">Name</label>
-                <div class="col-sm-10">
-                    <input type="text" class="form-control" id="mazeName" />
+            <div>
+                <br />
+                <label for="mazeName" class="col-sm-3 control-label">Name</label>
+                <div class="col-sm-9">
+                    <input type="text" class="form-control" data-bind="value:Name, valueUpdate: 'keyup' "
+                           placeholder="Enter The Game's Name" />
+                    <span data-bind='visible: Name.hasError, text: Name.validationMessage'> </span>
                     <br />
                 </div>
-                <label for="cols" class="col-sm-2 control-label">columns</label>
-                <div class="col-sm-10">
-                    <input type="text" class="form-control" id="cols" />
+                <label for="cols" class="col-sm-3 control-label">rows</label>
+                <div class="col-sm-9">
+                    <input type="text" class="form-control" data-bind="value:rows, valueUpdate: 'keyup' "
+                           placeholder="Enter number of rows" />
+                    <span data-bind='visible: rows.hasError, text: rows.validationMessage'> </span>
                     <br />
                 </div>
-                <label for="rows" class="col-sm-2 control-label">rows</label>
-                <div class="col-sm-10">
-                    <input type="text" class="form-control" id="rows" />
+                <label for="rows" class="col-sm-3 control-label">columns</label>
+                <div class="col-sm-9">
+                    <input type="text" class="form-control" data-bind="value:columns, valueUpdate: 'keyup' "
+                           placeholder="Enter number of columns" />
+                    <span data-bind='visible: columns.hasError, text: columns.validationMessage'> </span>
                     <br />
                 </div>
             </div>
             <div>
-                <button class="btn btn-default center-block" id="StrtBtn">Start A New Game</button>
+                <br />
+                <button class="btn btn-default" style="margin-left:40px" data-bind="click: StartBtn ,enable: isFormValid">Start A New Game</button>
 
             </div>
             <label for="cols" class="col-sm-2 control-label" style="margin-left:50px"><br />Search Algo</label>
-            <div class="dropdown ">
+            <div>
                 <br />
-                <button class="btn btn-default dropdown-toggle center-block" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true" id="dd">
-                    algo
-                    <span class="caret"></span>
-                </button>
-                <br /><br />
-                <ul class="dropdown-menu  " aria-labelledby="dropdownMenu1">
-                    <li><a href="#" data-value="action">Bfs</a></li>
-                    <li><a href="#" data-value="another action">Dfs</a></li>
-                   
-                </ul>
+                <select class="btn btn-default" data-bind=" options: algoOptions,optionsCaption:'Algo',value: selectedAlgo"></select>
             </div>
             <div>
                
                 
-                <button class="btn btn-default center-block" id="SlvBtn">Solve Game</button>
+                <button class="btn btn-default center-block" data-bind="click: SlvBtn ,enable: selectedAlgo">Solve Game</button>
 
             </div>
         </div>
@@ -80,7 +72,17 @@
 
         </div>
     </div>
+    
+    <script src="../Scripts/jquery-3.1.1.js"></script>
+    <script src="../Scripts/bootstrap.js"></script>
+    <script src="../Scripts/knockout-3.4.2.js"></script>
+    <script src="../Scripts/knockout.validation.js"></script>
+    <script src="../Scripts/jquery.signalR-2.2.2.js"></script>
+    <script src="../signalr/hubs"></script>
+    <script src="../Scripts/jquery.pnotify.js"></script>
+    <link href="../Content/jquery.pnotify.css" rel="stylesheet" />
     <script src="../Scripts/jquery.mazeBoard.js"></script>
     <script src="../Scripts/Single.js"></script>
+    
 </body>
 </html>

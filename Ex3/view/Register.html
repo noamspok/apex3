@@ -5,12 +5,7 @@
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <script src="../Scripts/jquery-3.1.1.js"></script>
     <link href="../Content/bootstrap.min.css" rel="stylesheet" />
-
-    <script src="../Scripts/bootstrap.js"></script>
-
-
     <title>
         Register
     </title>
@@ -23,11 +18,7 @@
 
     </div>
 
-    <script>
-        $(function () {
-            $("#nav-placeholder").load("navigationbar.html");
-        });
-    </script>
+    
 
     <div class="container">
         <h1>Register</h1>
@@ -40,23 +31,34 @@
                 <div class="form-group">
                     <label for="Username" class="col-md-2 control-label">Username: </label>
                     <div class="col-md-10">
-                        <input type="text" class="form-control" data-bind="value:UserName" />
+                        <input type="text" class="form-control" data-bind="value:UserName, valueUpdate: 'keyup'"
+                               placeholder ="enter your UserName here"/>
+                        <span data-bind='visible: UserName.hasError, text: UserName.validationMessage'> </span>
                         <br />
                     </div>
                     <br />
                     <label for="Password" class="col-md-2 control-label">Password: </label>
                     <div class="col-md-10">
-                        <input type="text" class="form-control" data-bind="value:Password" />
+                        <input type="password" class="form-control" data-bind="value:Password, valueUpdate: 'keyup'
+                               "placeholder="enter your password here" />
+                        <span data-bind='visible: Password.hasError, text: Password.validationMessage'> </span>
+                       
                         <br />
                     </div>
                     <label for="Password2" class="col-md-2 control-label">Verify Password: </label>
                     <div class="col-md-10">
-                        <input type="text" class="form-control" data-bind="value:Password2" />
+                        <input type="password" class="form-control" data-bind="value:Password2 , valueUpdate: 'keyup'"
+                               placeholder ="verify your password"/>
+                        <span data-bind=' text: Password2.validationMessage'> </span>
+                        
+
                         <br />
                     </div>
                     <label for="E-mail" class="col-md-2 control-label">E-mail: </label>
                     <div class="col-md-10">
-                        <input type="text" class="form-control" data-bind="value:Email" />
+                        <input type="text" class="form-control" data-bind="value:Email, valueUpdate: 'keyup' " 
+                               placeholder ="enter your E-mail here"/>
+                        <span data-bind='visible: Email.hasError, text: Email.validationMessage'> </span>
                     </div>
                 </div>
             </div>
@@ -64,9 +66,12 @@
     </div>
     <div class="container">
 
-        <button class="btn btn-default" data-bind="click: RegBtn">Register</button>
+        <button class="btn btn-default" data-bind="click: RegBtn ,enable: isFormValid" >Register</button>
     </div>
+    <script src="../Scripts/jquery-3.1.1.js"></script>
+    <script src="../Scripts/bootstrap.js"></script>
     <script src="../Scripts/knockout-3.4.2.js"></script>
+    <script src="../Scripts/knockout.validation.js"></script>
     <script src="../Scripts/Register.js"></script>
 </body>
 </html>

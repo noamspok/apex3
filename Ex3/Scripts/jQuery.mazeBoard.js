@@ -17,8 +17,12 @@
     exitImg.src = "../Images/exit.jpg";
     var playerRowLoc;
     var playerColLoc;
+    var Rival;
+    var Multi;
+    var messagesHub = $.connection.multiplayerHub;
+    $.connection.hub.start().done(function () {});
 
-    $.fn.mazeBoard = function (mazeData, startRow, startCol, exitRow, exitCol,enabled) {
+    $.fn.mazeBoard = function (mazeData, startRow, startCol, exitRow, exitCol, enabled,multi=false,rival="") {
         canvas = $(this)[0];
         context = canvas.getContext("2d");
         context.clearRect(0, 0, canvas.width, canvas.height);
@@ -35,6 +39,7 @@
         exitImg = exitImg;
         playerRowLoc = strRow;
         playerColLoc = strCol;
+        Multi = multi;
         context.fillStyle = "#000000";
         for (var i = 0; i < rows; i++) {
             for (var j = 0; j < cols; j++) {
@@ -49,7 +54,10 @@
         if (enabled) {
             document.addEventListener("keydown", move, false);
         }
-    }
+        if (multi) {
+            Rival = rival;
+        }
+    };
     function movePlayer(newRowLoc, newColLoc) {
         context.fillStyle = "#ffffff";
         context.fillRect(playerColLoc * cellWidth, playerRowLoc * cellHeight, cellWidth, cellHeight);
@@ -63,32 +71,55 @@
             case 37:
                 if (mazeDat[playerRowLoc][playerColLoc - 1] == 0) {
                     movePlayer(playerRowLoc, playerColLoc - 1);
+                    if (Multi) {
+                        messagesHub.messagesHub.server.sendMessage(sessionStorage.getItem("loggedInUser"),Rival,"left" );
+                    }
                 }
 
                 break;
             case 38:
                 if (mazeDat[playerRowLoc - 1][playerColLoc] == 0) {
                     movePlayer(playerRowLoc - 1, playerColLoc);
+                    if (Multi) {
+                        messagesHub.messagesHub.server.sendMessage(sessionStorage.getItem("loggedInUser"), Rival, "up");
+                    }
                 }
                 break;
             case 39:
                 if (mazeDat[playerRowLoc][playerColLoc + 1] == 0) {
                     movePlayer(playerRowLoc, playerColLoc + 1);
+                    if (Multi) {
+                        messagesHub.messagesHub.server.sendMessage(sessionStorage.getItem("loggedInUser"), Rival, "down");
+                    }
                 }
                 break;
             case 40:
                 if (mazeDat[playerRowLoc + 1][playerColLoc] == 0) {
                     movePlayer(playerRowLoc + 1, playerColLoc);
+                    if (Multi) {
+                        messagesHub.messagesHub.server.sendMessage(sessionStorage.getItem("loggedInUser"), Rival, "right");
+                    }
                 }
                 break;
         }
         if (playerRowLoc == xitRow && playerColLoc == xitCol) {
-            window.open("../view/winModal.html");
+            document.removeEventListener('keydown', movePlayer);
+            if (Multi) {
+                var apiUrl = "../api//Registry/SetRank/" + sessionStorage.getItem("loggedInUser")+ "/" + "Win";
+                $.ajax({
+                    method: "GET",
+                    url: apiUrl
+                }).done(function (maze) { });
+
+            }
+            new PNotify({
+                title: '',
+                text: 'you won!! =)',
+                type: 'success',
+                hide: false
+            });
            
-
-            
         }
-
     }
     $.fn.solveMaze = function (solution) {
         movePlayer(strRow, strCol);
@@ -109,8 +140,56 @@
                     movePlayer(playerRowLoc + 1, playerColLoc);
                     break;
             }
-            i++
+            i++;
         }, 200);
-    }
+    };
+
+
+
+    $.fn.rivalMove = function (direction) {
+
+        switch (direction) {
+            case "left":
+                if (mazeDat[playerRowLoc][playerColLoc - 1] == 0) {
+                    movePlayer(playerRowLoc, playerColLoc - 1);
+                }
+
+                break;
+            case "up":
+                if (mazeDat[playerRowLoc - 1][playerColLoc] == 0) {
+                    movePlayer(playerRowLoc - 1, playerColLoc);
+                }
+                break;
+            case "right":
+                if (mazeDat[playerRowLoc][playerColLoc + 1] == 0) {
+                    movePlayer(playerRowLoc, playerColLoc + 1);
+                }
+                break;
+            case "down":
+                if (mazeDat[playerRowLoc + 1][playerColLoc] == 0) {
+                    movePlayer(playerRowLoc + 1, playerColLoc);
+                }
+                break;
+            default:
+                break;
+        }
+        if (playerRowLoc == xitRow && playerColLoc == xitCol) {
+            
+                var apiUrl = "../api//Registry/SetRank/" + sessionStorage.getItem("loggedInUser") + "/" + "lose";
+                $.ajax({
+                    method: "GET",
+                    url: apiUrl
+                }).done(function (maze) { });
+
+            
+                new PNotify({
+                    title: '',
+                    text: 'you Lost =(',
+                    type: 'success',
+                    hide: false
+                });
+        }
+
+    };
 
 })(jQuery); 
