@@ -45,7 +45,7 @@ namespace Ex3.Controllers
             Maze maze= model.GenerateGame(name, rows, columns);
             gameGenerator[name] = username;
             games.Add(name);
-            SendMaze(username, (model.GetGames(name).ToString()));
+            SendMaze(username, (model.GetGames(name).ToJSON()));
         }
         public void JoinGame(string name, string username) {
 

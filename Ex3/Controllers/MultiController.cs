@@ -14,16 +14,11 @@ namespace Ex3.Controllers
     public class MultiController : ApiController
     {
         private SingleModel singleModel = new SingleModel();
-        // GET: api/Multi
-        public IEnumerable<string> Get()
-        {
-            return new string[] { "value1", "value2" };
-        }
 
         // GET: api/Multi/5
-        public string Get(int id)
+        public JObject Get(string game)
         {
-            return "value";
+            return JObject.Parse(singleModel.GetGames(game).ToJSON());
         }
 
         // POST: api/Multi

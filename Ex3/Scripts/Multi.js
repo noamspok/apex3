@@ -8,8 +8,17 @@ $(function () {
     }
 });
 
+var rival;
+var start = true;
+var Maze;
+
 var vm = new AppViewModel();
 var messagesHub = $.connection.multiplayerHub;
+
+messagesHub.client.gotMaze = function (text) {
+    Maze = text;
+};
+
 var self = sessionStorage.getItem("loggedInUser");
 $(function () {
     $.connection.hub.start().done(function () {
@@ -17,13 +26,6 @@ $(function () {
     });
 });
 
-var rival;
-var start = true;
-var Maze;
-
-messagesHub.client.gotMaze = function (text) {
-    Maze = text;
-};
 
 
 ko.validation.registerExtenders();
@@ -41,7 +43,11 @@ function AppViewModel() {
         document.onkeydown = function (e) {
             return false;
         };
-        messagesHub.generateGame(that.Name(), self, that.rows(), that.columns());
+        messagesHub.server.generateGame(that.Name(), self, that.rows(), that.columns());
+        var apiUrl = "../api/Multi/" + that.Name();
+        $.getJSON(apiUrl).done(function (data) {
+            Maze = data;
+        });
         var maze = Maze;
         var rows = maze.Rows;
             var cols = maze.Cols;
