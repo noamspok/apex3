@@ -10,6 +10,7 @@ $(function () {
 
 var vm = new AppViewModel();
 var messagesHub = $.connection.multiplayerHub;
+
 var self = sessionStorage.getItem("loggedInUser");
 $(function () {
     $.connection.hub.start().done(function () {
@@ -18,12 +19,9 @@ $(function () {
 });
 
 var rival;
-var start = true;
-var Maze;
 
-messagesHub.client.gotMaze = function (text) {
-    Maze = text;
-};
+
+
 
 
 ko.validation.registerExtenders();
@@ -34,39 +32,18 @@ function AppViewModel() {
     this.rows = ko.observable("").extend({ required: { message: "Please enter number of rows" },number: true });
     this.columns = ko.observable("").extend({ required: { message: "Please enter number of columns" }, number: true });
     this.gameOptions = ko.observableArray([]);
-    
-    
     this.selectedGame = ko.observable("");
     this.StartBtn = function () {
         document.onkeydown = function (e) {
             return false;
         };
-        messagesHub.generateGame(that.Name(), self, that.rows(), that.columns());
-        var maze = Maze;
-        var rows = maze.Rows;
-            var cols = maze.Cols;
-            var startRow = maze.Start.Row;
-            var startCol = maze.Start.Col;
-            var exitRow = maze.End.Row;
-            var exitCol = maze.End.Col;
-
-            var mazeData = new Array(rows);
-            for (var i = 0; i < rows; i++) {
-                mazeData[i] = new Array(cols);
-            }
-
-            var fromStr = maze.Maze.split("");
-
-            for (var j = 0; j < rows; j++) {
-                for (var k = 0; k < cols; k++) {
-                    mazeData[j][k] = fromStr[(j * cols) + k ];
-                }
-            }
-            while (start) { }
-            $("#mazeCanvas").mazeBoard(mazeData, startRow, startCol, exitRow, exitCol, true,rival);
-            $("#rivalsMazeCanvas").mazeBoard(mazeData, startRow, startCol, exitRow, exitCol, false);
-
-        
+        messagesHub.server.generateGame(that.Name(), self, that.rows(), that.columns());
+    };
+    this.JoinBtn = function () {
+        document.onkeydown = function (e) {
+            return false;
+        };
+        messagesHub.server.joinGame(that.selectedGame(), self);
     };
 
     this.isFormValid = ko.computed(function () {
@@ -74,8 +51,8 @@ function AppViewModel() {
         return this.columns.isValid() && this.rows.isValid(), this.Name.isValid();
     }, this);
 }
-messagesHub.client.start = function (senderPhoneNum, text) {
-    rival = senderPhoneNum;
+messagesHub.client.start = function  (text) {
+    rival = text;
     
     alert("start playing!");
     
@@ -92,8 +69,36 @@ messagesHub.client.gotGames = function (text) {
     
     vm.gameOptions(text["games"]);
     
+};
 
+messagesHub.client.gotMaze = function (text,riv) {
+    DrawMaze(text,riv);
 
 };
-ko.applyBindings(vm);
+function DrawMaze(text,riv) {
+    var maze = text;
+    var rows = maze.Rows;
+    var cols = maze.Cols;
+    var startRow = maze.Start.Row;
+    var startCol = maze.Start.Col;
+    var exitRow = maze.End.Row;
+    var exitCol = maze.End.Col;
+    rival = riv;
+    var mazeData = new Array(rows);
+    for (var i = 0; i < rows; i++) {
+        mazeData[i] = new Array(cols);
+    }
+
+    var fromStr = maze.Maze.split("");
+
+    for (var j = 0; j < rows; j++) {
+        for (var k = 0; k < cols; k++) {
+            mazeData[j][k] = fromStr[(j * cols) + k];
+        }
+    }
+    
+    $("#mazeCanvas").mazeBoard(mazeData, startRow, startCol, exitRow, exitCol, true, true, rival);
+    $("#rivalsMazeCanvas").mazeBoard(mazeData, startRow, startCol, exitRow, exitCol, false);
+}
+ko.applyBindings(vm, document.getElementById("multi"));
 

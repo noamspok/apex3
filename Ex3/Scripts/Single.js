@@ -69,7 +69,7 @@ function AppViewModel() {
         return this.columns.isValid() && this.rows.isValid(), this.Name.isValid();
     }, this);
 }
-ko.applyBindings(new AppViewModel());
+ko.applyBindings(new AppViewModel(),document.getElementById("single"));
 
 /*});*/
 //{"Name":"my","Maze":"0001001110000101101000000","Rows":5,"Cols":5,"Start":{"Row":0,"Col":2},"End":{"Row":2,"Col":2}}

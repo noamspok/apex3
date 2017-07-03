@@ -19,12 +19,8 @@
 
     </div>
 
-    <script>
-        $(function () {
-            $("#nav-placeholder").load("navigationbar.html");
-        });
-    </script>
-    <div class="container-fluid">
+   
+    <div class="container-fluid" id="multi">
         <h2>MultiPlayer Game</h2>
     
     
@@ -38,7 +34,7 @@
                 </div>
                
                 <br />
-                <button class="btn btn-default center-block col-sm-6 " style="margin-left:40px" data-bind="enable:selectedGame">Join Game</button>
+                <button class="btn btn-default center-block col-sm-6 " style="margin-left:40px" data-bind="click: JoinBtn, enable:selectedGame">Join Game</button>
 
             </div>
                 <div>

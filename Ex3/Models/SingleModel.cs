@@ -72,5 +72,9 @@ namespace Ex3.Models
             return maze;
         }
         public Maze GetGames(string game) { return games[game]; }
+        public void DeleteGame(string name)
+        {
+            games.Remove(name);
+        }
     }
 }

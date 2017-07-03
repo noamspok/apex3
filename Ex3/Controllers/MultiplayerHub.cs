@@ -22,38 +22,38 @@ namespace Ex3.Controllers
         private SingleModel model = new SingleModel();
         public void Connect(string UserName)
         {
-            games.Add("1");
-            games.Add("2");
-            games.Add("3");
+            
             connectedUsers[UserName] = Context.ConnectionId;
-            JObject obj = new JObject();
-            obj["games"] = JToken.FromObject(games);
-            Clients.All.gotGames(obj);
+            SendGames();
         }
-
-        public void Start(string senderUserName, string recipientUserName, string text)
-        {
-            string recipientId = connectedUsers[recipientUserName];
-            if (recipientId == null)
-                return;
-            Clients.Client(recipientId).gotMessage( text);
-        }
+        
 
         public void GenerateGame(string name,string username, int rows, int columns)
         {
-            
-            Maze maze= model.GenerateGame(name, rows, columns);
+            model.GenerateGame(name, rows, columns);
             gameGenerator[name] = username;
             games.Add(name);
-            SendMaze(username, (model.GetGames(name).ToString()));
+            SendGames();
+            
         }
         public void JoinGame(string name, string username) {
 
             string rival = gameGenerator[name];
-            Start(username, rival, username);
-            Start( rival, username,rival);
-            SendMaze(username,(model.GetGames(name).ToJSON()));
-            
+            string recipientId = connectedUsers[username];
+            if (recipientId == null)
+                return;
+            string otherRecipientId = connectedUsers[rival];
+            if (recipientId == null)
+                return;
+            Maze maze = model.GetGames(name);
+            JObject obj = JObject.Parse(maze.ToJSON());
+            Clients.Client(otherRecipientId).gotMaze(obj, username);
+            Clients.Client(recipientId).gotMaze(obj, rival);
+            games.Remove(name);
+            model.DeleteGame(name);
+            SendGames();
+            Clients.Client(otherRecipientId).start(username);
+            Clients.Client(recipientId).start(rival);
         }
         public void GetGames(string user)
         {
@@ -66,18 +66,13 @@ namespace Ex3.Controllers
             Clients.Client(recipientId).gotGames(obj);
         }
 
-        public void SendGames(string user, JObject text) {
-            string recipientId = connectedUsers[user];
-            if (recipientId == null)
-                return;
-            Clients.Client(recipientId).gotGames(text);
-        }
-        public void SendMaze(string user, string text)
+        
+        public void SendGames()
         {
-            string recipientId = connectedUsers[user];
-            if (recipientId == null)
-                return;
-            Clients.Client(recipientId).gotMaze(text);
+            JObject obj = new JObject();
+            obj["games"] = JToken.FromObject(games);
+            Clients.All.gotGames(obj);
+
         }
         public void Move(string user, string text)
         {

@@ -27,4 +27,4 @@ function AppViewModel() {
 }
 
 
-ko.applyBindings(new AppViewModel());
+ko.applyBindings(new AppViewModel(), document.getElementById("settings"));
