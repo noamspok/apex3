@@ -39,7 +39,13 @@ namespace Ex3
                 routeTemplate: "api/{controller}/{UserName}",
                 defaults: new { controller = "Registery" }
             );
-            
+
+            config.Routes.MapHttpRoute(
+               name: "GetGameApi",
+               routeTemplate: "api/{controller}/{game}",
+               defaults: new { controller = "Multi" }
+           );
+
             config.Routes.MapHttpRoute(
                 name: "DefaultApi",
                 routeTemplate: "api/{controller}/{id}",
