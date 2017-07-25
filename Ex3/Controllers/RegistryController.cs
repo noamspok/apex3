@@ -1,4 +1,5 @@
-﻿using System;
+﻿
+using System;
 using System.Collections.Generic;
 using System.Data;
 using System.Data.Entity;
@@ -14,17 +15,33 @@ using System.Text;
 
 namespace Ex3.Controllers
 {
+    /// <summary>
+    /// Class RegistryController.
+    /// </summary>
+    /// <seealso cref="System.Web.Http.ApiController" />
     public class RegistryController : ApiController
     {
+        /// <summary>
+        /// The database
+        /// </summary>
         private Ex3Context db = new Ex3Context();
 
         // GET: api/Registry
+        /// <summary>
+        /// Gets the registry models.
+        /// </summary>
+        /// <returns>IQueryable&lt;RegistryModel&gt;.</returns>
         public IQueryable<RegistryModel> GetRegistryModels()
         {
             return db.RegistryModels;
         }
 
         // GET: api/Registry/5
+        /// <summary>
+        /// Gets the registry model.
+        /// </summary>
+        /// <param name="UserName">Name of the user.</param>
+        /// <returns>IHttpActionResult.</returns>
         [ActionName("GetUserName")]
         public IHttpActionResult GetRegistryModel(string UserName)
         {
@@ -45,6 +62,12 @@ namespace Ex3.Controllers
         }
 
         // GET: api/Registry/SetRank/username/update/0
+        /// <summary>
+        /// Gets the registr model.
+        /// </summary>
+        /// <param name="Username">The username.</param>
+        /// <param name="update">The update.</param>
+        /// <returns>IEnumerable&lt;RegistryModel&gt;.</returns>
         [ActionName("SetRank")]
         public IEnumerable<RegistryModel> GetRegistrModel(string Username,string update)
         {
@@ -60,6 +83,12 @@ namespace Ex3.Controllers
         }
 
         // PUT: api/Registry/5
+        /// <summary>
+        /// Puts the registry model.
+        /// </summary>
+        /// <param name="id">The identifier.</param>
+        /// <param name="registryModel">The registry model.</param>
+        /// <returns>IHttpActionResult.</returns>
         [ResponseType(typeof(void))]
         public IHttpActionResult PutRegistryModel(int id, RegistryModel registryModel)
         {
@@ -95,6 +124,12 @@ namespace Ex3.Controllers
         }
 
         // POST: api/Registry
+        /// <summary>
+        /// Posts the registry model.
+        /// </summary>
+        /// <param name="registryModel">The registry model.</param>
+        /// <returns>IHttpActionResult.</returns>
+        /// <exception cref="DbUpdateException"></exception>
         [ResponseType(typeof(RegistryModel))]
         public IHttpActionResult PostRegistryModel(RegistryModel registryModel)
         {
@@ -125,6 +160,11 @@ namespace Ex3.Controllers
         }
 
         // DELETE: api/Registry/5
+        /// <summary>
+        /// Deletes the registry model.
+        /// </summary>
+        /// <param name="id">The identifier.</param>
+        /// <returns>IHttpActionResult.</returns>
         [ResponseType(typeof(RegistryModel))]
         public IHttpActionResult DeleteRegistryModel(int id)
         {
@@ -140,6 +180,10 @@ namespace Ex3.Controllers
             return Ok(registryModel);
         }
 
+        /// <summary>
+        /// Releases the unmanaged resources that are used by the object and, optionally, releases the managed resources.
+        /// </summary>
+        /// <param name="disposing">true to release both managed and unmanaged resources; false to release only unmanaged resources.</param>
         protected override void Dispose(bool disposing)
         {
             if (disposing)
@@ -149,11 +193,21 @@ namespace Ex3.Controllers
             base.Dispose(disposing);
         }
 
+        /// <summary>
+        /// Registries the model exists.
+        /// </summary>
+        /// <param name="id">The identifier.</param>
+        /// <returns><c>true</c> if XXXX, <c>false</c> otherwise.</returns>
         private bool RegistryModelExists(int id)
         {
             return db.RegistryModels.Count(e => e.Id == id) > 0;
         }
 
+        /// <summary>
+        /// Computes the hash.
+        /// </summary>
+        /// <param name="input">The input.</param>
+        /// <returns>System.String.</returns>
         private string ComputeHash(string input)
         {
             SHA1 sha = SHA1.Create();

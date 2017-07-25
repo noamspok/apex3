@@ -1,4 +1,5 @@
-﻿using System;
+﻿
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
@@ -10,24 +11,54 @@ using Newtonsoft.Json.Linq;
 
 namespace Ex3.Controllers
 {
+    /// <summary>
+    /// Class MultiplayerHub.
+    /// </summary>
+    /// <seealso cref="Microsoft.AspNet.SignalR.Hub" />
     public class MultiplayerHub : Hub
     {
+        /// <summary>
+        /// The database
+        /// </summary>
         private Ex3Context db = new Ex3Context();
+        /// <summary>
+        /// The connected users
+        /// </summary>
         private static ConcurrentDictionary<string, string> connectedUsers =
              new ConcurrentDictionary<string, string>();
+        /// <summary>
+        /// The game generator
+        /// </summary>
         private static ConcurrentDictionary<string, String> gameGenerator =
              new ConcurrentDictionary<string, string>();
+        /// <summary>
+        /// The games
+        /// </summary>
         public static List<string> games = new List<string>();
 
+        /// <summary>
+        /// The model
+        /// </summary>
         private SingleModel model = new SingleModel();
+        /// <summary>
+        /// Connects the specified user name.
+        /// </summary>
+        /// <param name="UserName">Name of the user.</param>
         public void Connect(string UserName)
         {
             
             connectedUsers[UserName] = Context.ConnectionId;
             SendGames();
         }
-        
 
+
+        /// <summary>
+        /// Generates the game.
+        /// </summary>
+        /// <param name="name">The name.</param>
+        /// <param name="username">The username.</param>
+        /// <param name="rows">The rows.</param>
+        /// <param name="columns">The columns.</param>
         public void GenerateGame(string name,string username, int rows, int columns)
         {
             model.GenerateGame(name, rows, columns);
@@ -36,6 +67,11 @@ namespace Ex3.Controllers
             SendGames();
             
         }
+        /// <summary>
+        /// Joins the game.
+        /// </summary>
+        /// <param name="name">The name.</param>
+        /// <param name="username">The username.</param>
         public void JoinGame(string name, string username) {
 
             string rival = gameGenerator[name];
@@ -55,6 +91,10 @@ namespace Ex3.Controllers
             Clients.Client(otherRecipientId).start(username);
             Clients.Client(recipientId).start(rival);
         }
+        /// <summary>
+        /// Gets the games.
+        /// </summary>
+        /// <param name="user">The user.</param>
         public void GetGames(string user)
         {
             string recipientId = connectedUsers[user];
@@ -66,7 +106,10 @@ namespace Ex3.Controllers
             Clients.Client(recipientId).gotGames(obj);
         }
 
-        
+
+        /// <summary>
+        /// Sends the games.
+        /// </summary>
         public void SendGames()
         {
             JObject obj = new JObject();
@@ -74,6 +117,11 @@ namespace Ex3.Controllers
             Clients.All.gotGames(obj);
 
         }
+        /// <summary>
+        /// Moves the specified user.
+        /// </summary>
+        /// <param name="user">The user.</param>
+        /// <param name="text">The text.</param>
         public void Move(string user, string text)
         {
             string recipientId = connectedUsers[user];
